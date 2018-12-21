@@ -30,8 +30,15 @@ public class RadiographicInspection : MonoBehaviour
             RaycastHit raycastHit;
             if (Physics.Raycast(ray, out raycastHit))
             {
+                if (raycastHit.collider.gameObject.tag != "Player")
+                    return;
                 //获得射线和地面的碰撞点
                 targetPos = new Vector3(raycastHit.point.x, transform.position.y, raycastHit.point.z);
+               //Vector3 pos = targetPos - transform.position;
+               // pos = transform.InverseTransformDirection(pos);
+               // float a = Mathf.Atan2(pos.x, pos.z);
+               // transform.Rotate(0f, a * 240f * Time.deltaTime, 0f);            
+                
                 //使人物朝向鼠标点击的位置
                 transform.LookAt(targetPos);
                 //播放动画
