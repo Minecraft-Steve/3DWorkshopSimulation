@@ -18,7 +18,7 @@ public class RadiationDetection : MonoBehaviour
     /// <summary>
     /// 主摄像机
     /// </summary>
-    public Transform camera;
+    //public Transform camera;
     /// <summary>
     /// 物体与摄像机之间的偏移量
     /// </summary>
@@ -31,7 +31,7 @@ public class RadiationDetection : MonoBehaviour
 
     private void Start()
     {
-        offset = camera.position - cube.position;
+        //offset = camera.position - cube.position;
     }
 
     private void Update()
@@ -81,12 +81,12 @@ public class RadiationDetection : MonoBehaviour
 
         }
 
-        camera.position = cube.position + offset;
+        //camera.position = cube.position + offset;
         #region LookAt阶段
         //判断人物和点击坐标的绝对值是否小于0.3
         if (Math.Abs((cube.position.x) - (target.x)) < 0.3 && Math.Abs((cube.position.z) - (target.z)) < 0.3)
         {
-            Debug.Log(target);
+            //Debug.Log(target);
             //关闭运动动画
             playerAnimator.SetBool("IsRun", false);
         }
