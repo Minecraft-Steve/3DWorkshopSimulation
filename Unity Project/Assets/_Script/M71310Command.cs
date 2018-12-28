@@ -93,16 +93,19 @@ public class M71310Command : MonoBehaviour
     [HideInInspector]
     bool isPreparatoryWork = false;
 
+    string text;
+
     private void Start()
     {
         _instance = this;
-        gearRotatingBtn.onClick.AddListener(gearRotating);
-        stopRotateBtn.onClick.AddListener(stopRotateing);
-        moveUpBtn.onClick.AddListener(moveUping);
-        moveDownBtn.onClick.AddListener(moveDowning);
-        workbenchLeftBtn.onClick.AddListener(moveToWorkbenchLefting);
-        workbenchGoGoGoBtn.onClick.AddListener(moveToWorkbenchGoGoGoing_One);
-        workbenchStopBtn.onClick.AddListener(moveToStoping);
+        gearRotatingBtn.onClick.AddListener(GearRotating);
+        stopRotateBtn.onClick.AddListener(StopRotateing);
+        //moveUpBtn.onClick.AddListener(moveUping);
+        //moveDownBtn.onClick.AddListener(moveDowning);
+        workbenchLeftBtn.onClick.AddListener(MoveToWorkbenchLefting);
+        workbenchGoGoGoBtn.onClick.AddListener(MoveToWorkbenchGoGoGoing_One);
+        workbenchStopBtn.onClick.AddListener(MoveToStoping);
+        //OnMouseDown();
     }
 
     private void Update()
@@ -113,72 +116,91 @@ public class M71310Command : MonoBehaviour
             gear.transform.Rotate(transform.forward, 100f * Time.deltaTime);
             Debug.Log("旋转");
         }
-
+        //if (Input.GetButtonDown("Fire1") && text == "砂轮机上升")
+        //{
+        //    Debug.Log("砂轮机上升");
+        //    while (true)
+        //    {
+        //        moveUping();
+        //    }
+        //}
+        //if (text== "砂轮机上升")
+        //{
+        //    moveUping();
+        //}
+        //if (Input.GetButtonUp("Fire1"))
+        //{
+        //    Debug.Log("放开");
+        //    text = "";
+        //}
     }
 
     /// <summary>
     /// 齿轮旋转方法
     /// </summary>
-    void gearRotating()
+    void GearRotating()
     {
         isRotate = true;
     }
 
-    void stopRotateing()
+    void StopRotateing()
     {
         isRotate = false;
     }
 
-    /// <summary>
-    /// 物体向上移动的方法
-    /// </summary>
-    void moveUping()
-    {
-        if (!isUpStop)
-        {
-            moveSpeed = Mathf.Abs(moveSpeed);
-            moveTo_Toing();
-        } 
-    }
+    #region 鼠标点击移动（废弃）
+    ///// <summary>
+    ///// 物体向上移动的方法
+    ///// </summary>
+    //void moveUping()
+    //{
+    //    if (!isUpStop)
+    //    {
+    //        //moveSpeed = Mathf.Abs(moveSpeed);
+    //        //moveTo_Toing();
+    //    }
+    //}
 
-    /// <summary>
-    /// 物体向下移动的方法
-    /// </summary>
-    void moveDowning()
-    {
-        if (!isDownStop)
-        {
-            moveSpeed = Mathf.Abs(moveSpeed) * -1;
-            moveTo_Toing();
-        }
-    }
+    ///// <summary>
+    ///// 物体向下移动的方法
+    ///// </summary>
+    //void moveDowning()
+    //{
+    //    if (!isDownStop)
+    //    {
+    //        //moveSpeed = Mathf.Abs(moveSpeed) * -1;
+    //        //moveTo_Toing();
+    //    }
+    //}
+    #endregion
+
 
     /// <summary>
     /// 物体上下移动的方法
     /// </summary>
-    void moveTo_Toing()
+    public void MoveTo_Toing(float sx)
     {
         foreach (var i in moveUp)
         {
-            i.transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
+            i.transform.Translate(Vector3.up * Time.deltaTime * moveSpeed * sx);
         }
         foreach (var j in moveZ)
         {
-            j.transform.Translate(Vector3.back * Time.deltaTime * moveSpeed);
+            j.transform.Translate(Vector3.back * Time.deltaTime * moveSpeed * sx);
         }
         for (int k = 0; k < moveHeHe.Count; k++)
         {
             if (k == 0)
             {
-                moveHeHe[k].transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
+                moveHeHe[k].transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed * sx);
             }
             else if (k == 1)
             {
-                moveHeHe[k].transform.Translate(Vector3.left * Time.deltaTime * moveSpeed);
+                moveHeHe[k].transform.Translate(Vector3.left * Time.deltaTime * moveSpeed * sx);
             }
             else if (k == 2)
             {
-                moveHeHe[k].transform.Translate(Vector3.down * Time.deltaTime * moveSpeed);
+                moveHeHe[k].transform.Translate(Vector3.down * Time.deltaTime * moveSpeed * sx);
             }
 
         }
@@ -187,7 +209,7 @@ public class M71310Command : MonoBehaviour
     /// <summary>
     /// 工作台移动到左侧的方法
     /// </summary>
-    void moveToWorkbenchLefting()
+    void MoveToWorkbenchLefting()
     {
         workbench.transform.DOMove(workbenchLeftPosition.position, 2f);
         isPreparatoryWork = true;
@@ -196,29 +218,47 @@ public class M71310Command : MonoBehaviour
     /// <summary>
     /// 工作台往复移动的方法
     /// </summary>
-    void moveToWorkbenchGoGoGoing_One()
+    void MoveToWorkbenchGoGoGoing_One()
     {
         if (isPreparatoryWork)
         {
-            workbench.transform.DOMove(workbenchRightPosition.position, 2f).OnComplete(() => moveToWorkbenchGoGoGoing_Two());
+            workbench.transform.DOMove(workbenchRightPosition.position, 2f).OnComplete(() => MoveToWorkbenchGoGoGoing_Two());
         }
     }
 
     /// <summary>
     /// 工作台往复移动的方法
     /// </summary>
-    void moveToWorkbenchGoGoGoing_Two()
+    void MoveToWorkbenchGoGoGoing_Two()
     {
-        workbench.transform.DOMove(workbenchLeftPosition.position, 2f).OnComplete(() => moveToWorkbenchGoGoGoing_One());
+        workbench.transform.DOMove(workbenchLeftPosition.position, 2f).OnComplete(() => MoveToWorkbenchGoGoGoing_One());
     }
 
     /// <summary>
     /// 停止运动的方法
     /// </summary>
-    void moveToStoping()
+    void MoveToStoping()
     {
         workbench.transform.DOKill();
         workbench.transform.DOMove(initialPosition.position, 2f);
         isPreparatoryWork = false;
     }
+
+    //private void OnMouseDown()
+    //{
+    //    //text = GameObject.Find("M7130/Canvas/moveUpBtn/Text").GetComponent<Text>().text;
+    //    moveUpBtn.gameObject.GetComponent<Button>()
+    //        .onClick
+    //        .AddListener
+    //        (
+    //            delegate ()
+    //            {
+    //                string texts = moveUpBtn.gameObject.GetComponentInChildren<Text>().text;
+    //                text = texts;
+    //                Debug.Log(text + "123");
+    //                moveUping();
+    //            }
+    //        );
+    //}
+
 }

@@ -16,6 +16,7 @@ public class PengZhuang : MonoBehaviour
     {
         if (other.tag=="XiaXianWei")
         {
+            Debug.Log("碰撞");
             M71310Command._instance.isDownStop = true;
         }
         if (other.tag == "ShangXianWei")
