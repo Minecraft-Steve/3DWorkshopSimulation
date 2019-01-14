@@ -18,10 +18,12 @@ public class PengZhuang : MonoBehaviour
         {
             Debug.Log("碰撞");
             M71310Command._instance.isDownStop = true;
+            T68Command._instance.isDownStop = true;
         }
         if (other.tag == "ShangXianWei")
         {
             M71310Command._instance.isUpStop = true;
+            T68Command._instance.isUpStop = true;
         }
     }
 
@@ -34,10 +36,12 @@ public class PengZhuang : MonoBehaviour
         if (other.tag == "XiaXianWei")
         {
             M71310Command._instance.isDownStop = false;
+            T68Command._instance.isDownStop = false;
         }
         if (other.tag == "ShangXianWei")
         {
             M71310Command._instance.isUpStop = false;
+            T68Command._instance.isUpStop = false;
         }
     }
 }

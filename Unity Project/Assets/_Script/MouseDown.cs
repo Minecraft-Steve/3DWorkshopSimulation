@@ -106,14 +106,14 @@ public class MouseDown : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,I
         }
         else if (apparatusType == ApparatusType.T68)
         {
-            //if (clickType == ClickType.Long)
-            //{
-            //    M71310Command._instance.MoveTo_Toing(number);
-            //}
-            //else if (clickType == ClickType.Once)
-            //{
-            //    M71310Command._instance.MoveTo_Toing(number);
-            //}
+            if (clickType == ClickType.Long)
+            {
+                T68Command._instance.MoveToing(number);
+            }
+            else if (clickType == ClickType.Once)
+            {
+                T68Command._instance.MoveToing(number);
+            }
         }
         
     }
@@ -173,10 +173,19 @@ public class MouseDown : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,I
         {
             number = (Mathf.Abs(Number)) * -1;
         }
+        else if (T68Command._instance.isDownStop)
+        {
+            number = Mathf.Abs(Number);
+        }
+        else if (T68Command._instance.isUpStop)
+        {
+            number = (Mathf.Abs(Number)) * -1;
+        }
         else
         {
             number = Number;
         }
+
         if (isDown)
         {
             if (Time.time - lastUpBtnTime > DelayTime)

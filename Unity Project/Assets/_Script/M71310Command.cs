@@ -178,6 +178,7 @@ public class M71310Command : MonoBehaviour
     /// <summary>
     /// 物体上下移动的方法
     /// </summary>
+    /// /// <param name="sx">移动的方向值</param>
     public void MoveTo_Toing(float sx)
     {
         foreach (var i in moveUp)
